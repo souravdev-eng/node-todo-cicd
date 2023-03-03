@@ -6,7 +6,8 @@ pipeline {
     stages{
         stage('Code'){
             steps{
-                git url: 'https://https://github.com/souravdev-eng/node-todo-cicd.git', branch: 'master' 
+                checkout scm
+                sh 'ls *' 
             }
         }
         stage('Build and Test'){
