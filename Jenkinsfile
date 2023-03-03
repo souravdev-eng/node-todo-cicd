@@ -1,6 +1,8 @@
 pipeline {
-    agent { label 'node-agent' }
-    
+    agent any
+    environment{
+        DOCKERHUB_CREDS = credentials('dockerHub')
+    }
     stages{
         stage('Code'){
             steps{
@@ -14,15 +16,10 @@ pipeline {
         }
         stage('Push'){
             steps{
-                withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
-        	     sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+                 withDockerRegistry([ credentialsId: "dockerHub", url: "" ]) {
+        	      sh 'echo $DOCKERHUB_CREDS_PSW | docker login -u $DOCKERHUB_CREDS_USR --password-stdin'     
                  sh 'docker push souravdeveloper/node-todo-test:latest'
                 }
-            }
-        }
-        stage('Deploy'){
-            steps{
-                sh "docker-compose down && docker-compose up -d"
             }
         }
     }
