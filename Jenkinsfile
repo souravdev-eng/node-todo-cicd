@@ -17,10 +17,10 @@ pipeline {
         }
         stage('Push'){
             steps{
-                 withDockerRegistry([ credentialsId: "dockerHub", url: "" ]) {
-        	      sh 'echo $DOCKERHUB_CREDS_PSW | docker login -u $DOCKERHUB_CREDS_USR --password-stdin'     
+                 
+        	     sh 'echo $DOCKERHUB_CREDS_PSW | docker login -u $DOCKERHUB_CREDS_USR --password-stdin'     
                  sh 'docker push souravdeveloper/node-todo-test:latest'
-                }
+                
             }
         }
     }
