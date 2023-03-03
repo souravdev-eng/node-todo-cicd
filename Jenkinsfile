@@ -12,14 +12,14 @@ pipeline {
         }
         stage('Build and Test'){
             steps{
-                sh 'docker build . -t souravdeveloper/node-todo-test:latest'
+                sh 'docker build . -t souravdeveloper/node-todo-test:$BUILD_NUMBER'
             }
         }
         stage('Push'){
             steps{
                  
         	     sh 'echo $DOCKERHUB_CREDS_PSW | docker login -u $DOCKERHUB_CREDS_USR --password-stdin'     
-                 sh 'docker push souravdeveloper/node-todo-test:latest'
+                 sh 'docker push souravdeveloper/node-todo-test:$BUILD_NUMBER'
                 
             }
         }
